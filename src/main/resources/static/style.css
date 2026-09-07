@@ -1,0 +1,73 @@
+/* Общие стили */
+body {
+    background: #f8f9fa;
+}
+
+.card {
+    border-radius: 12px;
+    border: none;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Стили для элементов списка контактов */
+.contact-item {
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    padding: 12px 20px;
+}
+
+.contact-item:hover {
+    background-color: #f1f3f5;
+}
+
+.contact-item.active {
+    background-color: #e7f1ff;
+    border-left: 4px solid #0d6efd;
+}
+
+.contact-item .contact-name {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.contact-item .contact-email {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.contact-item .contact-phone {
+    font-size: 0.85rem;
+    color: #495057;
+}
+
+.contact-item .contact-actions {
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.contact-item:hover .contact-actions {
+    opacity: 1;
+}
+
+/* Анимация для кнопки удалить все */
+.btn-danger {
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    transform: scale(1.05);
+}
+
+/* Стиль для пустого состояния */
+.empty-state {
+    color: #adb5bd;
+}
+
+.empty-state i {
+    font-size: 3rem;
+}
