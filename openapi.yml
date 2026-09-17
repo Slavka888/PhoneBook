@@ -1,0 +1,163 @@
+openapi: 3.0.0
+info:
+  title: API Телефонного справочника
+  description: RESTful API для управления списком контактов (CRUD операции)
+  version: 1.0.0
+  contact:
+    email: email@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: http://localhost:8080/api
+    description: Локальный сервер разработки
+
+paths:
+  /contacts:
+    get:
+      summary: Получить список всех контактов
+      description: Возвращает массив со всеми контактами из справочника.
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contact'
+    post:
+      summary: Создать новый контакт
+      description: Добавляет новый контакт в справочник.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactInput'
+      responses:
+        '201':
+          description: Контакт успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '400':
+          description: Некорректные данные (например, пустое имя)
+    delete:
+      summary: Удалить все контакты
+      description: Полностью очищает справочник.
+      responses:
+        '204':
+          description: Все контакты успешно удалены
+
+  /contacts/{id}:
+    get:
+      summary: Получить контакт по ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: Уникальный идентификатор контакта
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '404':
+          description: Контакт с указанным ID не найден
+    put:
+      summary: Обновить контакт по ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID контакта для обновления
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactInput'
+      responses:
+        '200':
+          description: Контакт успешно обновлен
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        '404':
+          description: Контакт с указанным ID не найден
+    delete:
+      summary: Удалить контакт по ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID контакта для удаления
+      responses:
+        '204':
+          description: Контакт успешно удален
+        '404':
+          description: Контакт с указанным ID не найден
+
+components:
+  schemas:
+    Phone:
+      type: object
+      properties:
+        mobile:
+          type: string
+          example: "+7-999-123-4567"
+          description: Номер мобильного телефона
+        home:
+          type: string
+          example: "+7-495-111-2233"
+          description: Номер домашнего телефона
+
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+          description: Уникальный идентификатор, генерируется базой данных
+        username:
+          type: string
+          example: "Иван Петров"
+          description: Полное имя контакта
+        email:
+          type: string
+          format: email
+          example: "ivan@example.com"
+          description: Адрес электронной почты
+        phone:
+          $ref: '#/components/schemas/Phone'
+
+    ContactInput:
+      type: object
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          example: "Иван Петров"
+        email:
+          type: string
+          format: email
+          example: "ivan@example.com"
+        phone:
+          $ref: '#/components/schemas/Phone'
