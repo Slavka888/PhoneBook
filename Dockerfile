@@ -8,7 +8,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # ---- Этап 2: Запуск приложения ----
-FROM openjdk:21-jre-slim
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Копируем собранный JAR-файл из первого этапа
